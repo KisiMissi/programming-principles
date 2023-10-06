@@ -9,3 +9,6 @@
 /dataSources.local.xml
 
 programming-principles-homework1.iml
+out/
+
+.gitignore
