@@ -19,7 +19,12 @@ public class GameProcessController {
         writer.write(GREETING);
         while (true) {
             String answer = wantStartGame();
-            gameParticipation(answer);
+            boolean startGame = gameParticipation(answer);
+
+            if (startGame)
+                GuessingProcess.start();
+            else
+                break;
         }
     }
 
@@ -28,20 +33,16 @@ public class GameProcessController {
         return reader.readAnswer();
     }
 
-    private void gameParticipation(String answer) {
-        if (answer.equals(YES))
-            GuessingProcess.start();
-        else
-            continueGame(answer);
-    }
-    private void continueGame(String answer) {
-        if (answer.equals(NO)) {
+    private boolean gameParticipation(String answer) {
+        if (answer.equals(YES)) {
+            writer.write(ANSWER_TO_YES);
+            return true;
+        } else if (answer.equals(NO)) {
             writer.write(ANSWER_TO_NO);
-            System.exit(0);
-        } else if (!answer.equals(YES)) {
+            return false;
+        } else {
             writer.write(UNEXPECTED_ANSWER);
-            System.exit(0);
+            return false;
         }
-        writer.write(ANSWER_TO_YES);
     }
 }
